@@ -1,6 +1,8 @@
 import exception.NoSuchOptionException;
 import io.DataReader;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
@@ -23,15 +25,15 @@ public class GameLogic {
         String[][] gameBoardSolved = wordsManager.putWordsInArray(randomWords);
         String[][] gameplayBoard = new String[difficultyLevel.getWordsToGuess() == 4 ? 2 : 4][4];
         for (String[] rows : gameplayBoard) {
-            Arrays.fill(rows, "X");
+            Arrays.fill(rows, "\u26F6");
         }
 
-        int guessChances = difficultyLevel.getGuessChances();
+        int guessChancesLeft = difficultyLevel.getGuessChances();
         int pairsToGuess = difficultyLevel.getWordsToGuess();
 
+        Instant startTime = Instant.now();
         do {
-
-            System.out.println("Guess chances: " + guessChances);
+            System.out.println("Guess chances: " + guessChancesLeft);
 
             printGameBoard(gameplayBoard);
             int firstWordRow = dataReader.getInt();
@@ -44,18 +46,28 @@ public class GameLogic {
             String secondWord = checkField(secondWordRow, secondWordColumn, gameplayBoard, gameBoardSolved);
             printGameBoard(gameplayBoard);
 
-            if (firstWord.equals(secondWord) && firstWordRow != secondWordRow && firstWordColumn != secondWordColumn) {
+            if (firstWord.equals(secondWord) && (firstWordRow != secondWordRow || firstWordColumn != secondWordColumn)) {
                 System.out.println("Gratulations, You find a pair!");
                 pairsToGuess--;
-            } else {
+            } else if (guessChancesLeft != 0) {
                 System.out.println("Try again :(");
                 resetFields(firstWordRow, firstWordColumn, secondWordRow, secondWordColumn, gameplayBoard);
             }
 
-            guessChances--;
+            guessChancesLeft--;
 
-            if (checkLooseCondition(guessChances)) break;
-            if (checkWinCondition(pairsToGuess)) break;
+            if (pairsToGuess == 0) {
+                Instant endTime = Instant.now();
+                long gameplayTime = Duration.between(startTime, endTime).toSeconds();
+                int chancesUsed = difficultyLevel.getGuessChances() - guessChancesLeft;
+                System.out.printf("You solved the memory game after %d chances. It took you %d seconds\n", chancesUsed, gameplayTime);
+                break;
+            }
+
+            if (guessChancesLeft == 0) {
+                System.out.println("You loose :(");
+                break;
+            }
         } while (true);
     }
 
@@ -74,22 +86,6 @@ public class GameLogic {
             }
         }
         return option;
-    }
-
-    private boolean checkWinCondition(int pairsToGuess) {
-        if (pairsToGuess == 0) {
-            System.out.println("You win!");
-            return true;
-        }
-        return false;
-    }
-
-    private boolean checkLooseCondition(int guessChances) {
-        if (guessChances == 0) {
-            System.out.println("You loose :(");
-            return true;
-        }
-        return false;
     }
 
     private void resetFields(int firstWordRow, int firstWordColumn, int secondWordRow, int secondWordColumn, String[][] gameplayBoard) {
