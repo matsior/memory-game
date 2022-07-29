@@ -1,15 +1,21 @@
+package app;
+
 import exception.NoSuchOptionException;
+import io.ConsolePrinter;
 import io.CsvFileManager;
 import io.DataReader;
+import model.HighScore;
 import model.MenuOption;
 
 import java.util.InputMismatchException;
+import java.util.List;
 
 public class MemoryApplicationControl {
 
     private final DataReader dataReader = new DataReader();
     private final CsvFileManager csvFileManager = new CsvFileManager();
-    private final GameLogic gameLogic = new GameLogic(csvFileManager, dataReader);
+    private final ConsolePrinter consolePrinter = new ConsolePrinter();
+    private final Game game = new Game(csvFileManager, dataReader, consolePrinter);
 
     void controlLoop() {
         MenuOption menuOption;
@@ -27,15 +33,16 @@ public class MemoryApplicationControl {
 
     private void exit() {
         dataReader.close();
-        System.out.println("Closing Memory Game. See You again :)");
+        System.out.println("Closing Memory app.Game. See You again :)");
     }
 
     private void startNewGame() {
-        gameLogic.newGame();
+        game.startNewGame();
     }
 
     private void displayHighScores() {
-        throw new RuntimeException("Not implemented yet.");
+        List<HighScore> highScores = csvFileManager.importHighScores();
+        consolePrinter.printHighScores(highScores);
     }
 
     private MenuOption getOption() {

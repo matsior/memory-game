@@ -15,6 +15,22 @@ public class HighScore {
         this.guessingTries = guessingTries;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public long getGuessingTime() {
+        return guessingTime;
+    }
+
+    public int getGuessingTries() {
+        return guessingTries;
+    }
+
     @Override
     public String toString() {
         return  String.format("%s | %s | %d | %d", name, date.toString(), guessingTime, guessingTries);
