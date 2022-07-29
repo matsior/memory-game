@@ -1,28 +1,39 @@
 import exception.NoSuchOptionException;
+import io.CsvFileManager;
 import io.DataReader;
+import model.DifficultyLevel;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.InputMismatchException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class GameLogic {
 
-    private final WordsManager wordsManager;
+    private final CsvFileManager csvFileManager;
     private final DataReader dataReader;
+    private List<String> words;
 
-    public GameLogic(WordsManager wordsManager, DataReader dataReader) {
-        this.wordsManager = wordsManager;
+    public GameLogic(CsvFileManager csvFileManager, DataReader dataReader) {
+        this.csvFileManager = csvFileManager;
         this.dataReader = dataReader;
+        this.words = csvFileManager.importWords();
     }
+
+
 
     public void newGame() {
         System.out.println("Choose difficulty level:");
         DifficultyLevel.printOptions();
         DifficultyLevel difficultyLevel = getDifficultyLevel();
 
-        String[] randomWords = wordsManager.getRandomWords(difficultyLevel.getWordsToGuess());
-        String[][] gameBoardSolved = wordsManager.putWordsInArray(randomWords);
+
+        String[] randomWords = getRandomWords(difficultyLevel.getWordsToGuess(), words);
+        String[][] gameBoardSolved = putWordsInArray(randomWords);
         String[][] gameplayBoard = new String[difficultyLevel.getWordsToGuess() == 4 ? 2 : 4][4];
         for (String[] rows : gameplayBoard) {
             Arrays.fill(rows, "\u26F6");
@@ -111,5 +122,27 @@ public class GameLogic {
                 }
             }
         }
+    }
+
+    private String[] getRandomWords(int amount, List<String> words) {
+        Collections.shuffle(words);
+        List<String> randomWordsDoubled = words.stream()
+                .limit(amount)
+                .flatMap(word -> Stream.of(word, word))
+                .collect(Collectors.toList());
+        Collections.shuffle(randomWordsDoubled);
+        return randomWordsDoubled.toArray(String[]::new);
+    }
+
+    private String[][] putWordsInArray(String[] words) {
+        String[][] result = new String[words.length == 8 ? 2 : 4][4];
+        int counter = 0;
+        for (int row = 0; row < result.length; row++) {
+            for (int column = 0; column < result[row].length; column++) {
+                result[row][column] = words[counter];
+                counter++;
+            }
+        }
+        return result;
     }
 }

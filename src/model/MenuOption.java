@@ -1,3 +1,5 @@
+package model;
+
 import exception.NoSuchOptionException;
 
 public enum MenuOption {
@@ -13,13 +15,13 @@ public enum MenuOption {
         this.description = description;
     }
 
-    static void printOptions() {
+    public static void printOptions() {
         for (MenuOption value : MenuOption.values()) {
             System.out.println(value);
         }
     }
 
-    static MenuOption createFromInt(int option) throws NoSuchOptionException {
+    public static MenuOption createFromInt(int option) throws NoSuchOptionException {
         try {
             return MenuOption.values()[option];
         } catch (ArrayIndexOutOfBoundsException e) {

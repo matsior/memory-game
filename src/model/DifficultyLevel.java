@@ -1,3 +1,5 @@
+package model;
+
 import exception.NoSuchOptionException;
 
 public enum DifficultyLevel {
@@ -33,7 +35,7 @@ public enum DifficultyLevel {
         return guessChances;
     }
 
-    static DifficultyLevel createFromInt(int option) {
+    public static DifficultyLevel createFromInt(int option) {
         try {
             return DifficultyLevel.values()[option - 1];
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -41,7 +43,7 @@ public enum DifficultyLevel {
         }
     }
 
-    static void printOptions() {
+    public static void printOptions() {
         for (DifficultyLevel value : DifficultyLevel.values()) {
             System.out.println(value);
         }

@@ -1,14 +1,15 @@
 import exception.NoSuchOptionException;
+import io.CsvFileManager;
 import io.DataReader;
+import model.MenuOption;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class MemoryApplicationControl {
 
     private final DataReader dataReader = new DataReader();
-    private final WordsManager wordsManager = new WordsManager();
-    private final GameLogic gameLogic = new GameLogic(wordsManager, dataReader);
+    private final CsvFileManager csvFileManager = new CsvFileManager();
+    private final GameLogic gameLogic = new GameLogic(csvFileManager, dataReader);
 
     void controlLoop() {
         MenuOption menuOption;
