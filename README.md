@@ -8,7 +8,7 @@ Funcionalites:
 - two difficulty levels,
 - importing words from text file,
 - importing and exporting high scores,
-- measuring time of each game.
+- measuring players score and time of each game.
 
 ## Technologies
 * Java 17
