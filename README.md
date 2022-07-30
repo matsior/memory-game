@@ -15,5 +15,5 @@ Funcionalites:
 
 ## Getting started
 To setup and run this project:
-1. Clone repository `git clone https://github.com/matsior/beer-api.git`
+1. Clone repository `git clone https://github.com/matsior/memory-game`
 2. Open project in your favourite IDE and run
