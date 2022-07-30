@@ -3,7 +3,7 @@
 ## Why do I code
 
 ## About The Project
-Memory game where you need to find pairs of words. 
+Memory game where you need to find pairs of words. <br>
 Funcionalites:
 - two difficulty levels,
 - importing words from text file,
