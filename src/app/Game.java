@@ -132,7 +132,7 @@ public class Game {
             } catch (NoSuchOptionException e) {
                 System.out.println(e.getMessage());
             } catch (InputMismatchException e) {
-                System.out.println("Its not a number");
+                System.out.println("It's not a number");
             }
         }
         return option;

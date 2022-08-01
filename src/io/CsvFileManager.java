@@ -26,11 +26,11 @@ public class CsvFileManager {
         List<HighScore> result = new ArrayList<>();
         List<String> allHighScores = importFile(HIGH_SCORES_FILE_NAME);
         for (String highScore : allHighScores) {
-            String[] rowArray = highScore.split(";");
-            String name = rowArray[0];
-            LocalDate date = LocalDate.parse(rowArray[1], DATE_TIME_FORMATTER);
-            long guessingTime = Long.parseLong(rowArray[2]);
-            int guessingTries = Integer.parseInt(rowArray[3]);
+            String[] highScoreRowArray = highScore.split(";");
+            String name = highScoreRowArray[0];
+            LocalDate date = LocalDate.parse(highScoreRowArray[1], DATE_TIME_FORMATTER);
+            long guessingTime = Long.parseLong(highScoreRowArray[2]);
+            int guessingTries = Integer.parseInt(highScoreRowArray[3]);
             HighScore highScoreToSave = new HighScore(name, date, guessingTime, guessingTries);
             result.add(highScoreToSave);
         }
