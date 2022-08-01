@@ -42,8 +42,8 @@ public class CsvFileManager {
                 FileWriter fileWriter = new FileWriter(HIGH_SCORES_FILE_NAME, true);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         ) {
-            bufferedWriter.newLine();
             bufferedWriter.write(highScore.toCsvFormat());
+            bufferedWriter.newLine();
         } catch (IOException e) {
             throw new DataExportException("File " + WORDS_FILE_NAME + " not found");
         }
