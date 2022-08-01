@@ -31,6 +31,9 @@ public class HighScore {
         return guessingTries;
     }
 
+    public String toCsvFormat() {
+        return String.format("%s;%s%d%d", name, date.toString(), guessingTime, guessingTries);
+    }
     @Override
     public String toString() {
         return  String.format("%s | %s | %d | %d", name, date.toString(), guessingTime, guessingTries);

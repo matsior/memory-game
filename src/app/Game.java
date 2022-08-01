@@ -88,6 +88,7 @@ public class Game {
                 HighScore usersHighScore = new HighScore(name, LocalDate.now(), gameplayTime, chancesUsed);
                 highScores.add(usersHighScore);
                 consolePrinter.printHighScores(highScores);
+                csvFileManager.addHighScore(usersHighScore);
                 break;
             }
 
